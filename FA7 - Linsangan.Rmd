@@ -1,0 +1,63 @@
+---
+title: "FA7"
+output:
+  pdf_document: default
+  word_document: default
+date: "2023-04-19"
+---
+
+1. A machine produces memory sticks of varying lengths, distributed uniformly between 2 and 12 mm. Memory sticks longer than 10 mm do not meet the design criterion, and must be scrapped.
+
+(a) Calculate the probability that a memory stick will be scrapped.
+(b) Simulate 50 memory stick lengths and obtain a histogram of the simulated values. Calculate the simulated mean and variance.
+
+```{}
+memostick <- runif (50, 2, 12)
+mean (memostick)
+var (memostick)
+```
+
+2. Students in an electronic engineering laboratory measure current in using an ammeter. Due to several random factors, the measurement X follows the pdf
+
+(a) Show that, for this to be a genuine probability density, b = 0.15.
+(b) Find the probability that the measurement of the current exceeds 3 A.
+(c) Find E(X).
+
+```{}
+curve(0.025*x + 0.15, 2, 12, xlim = c(0,14))
+integrand <- function(x)(0.025*x +0.15)
+integrate(integrand, 2, 3)
+
+lower = 2
+higher = 6
+b <- 0.15
+f <- function(x) ifelse(6 > x & x > 2, 0.025*x + b, 0)
+density <- integrate(f, lower = 2, higher = 6)$val
+y <- 0.1
+GP <- (abs(density - 1) < y) 
+GP
+
+current <- integrate(f, lower = 3, higher = 6)$val
+cat("Probability that measurement exceeds 3 is =", current)
+
+fEX <- integrate(function(x) x * f(x), lower = 2, higher = 6)$val
+cat("Expected value of X =", round(fEX, 2))
+
+LowLim <- c(-3.14)
+HighLim <- c(3.14)
+
+pdf <- function(x) {
+  ifelse(abs(x) <= 3.14, 1/(2*3.14), 0)
+}
+probability_1 <- integrate(pdf, lower = LowLim, lower = 0)$val
+probability_1
+probability_2 <- integrate(pdf, lower = LowLim, higher = 3.14/2)$val
+probability_2
+```
+
+3. In a radio communications system, the phase difference X between the transmitter and receiver is modeled as having a uniform density in 
+ [−𝜋,+𝜋]. Find P(X ≤ 0) and P(X ≤ 𝜋/ 2).
+
+```{}
+
+```
